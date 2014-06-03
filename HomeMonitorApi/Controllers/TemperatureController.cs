@@ -51,12 +51,14 @@ namespace HomeMonitorApi.Controllers
         // POST: api/Temperature/addreading
         [HttpPost]
         [ActionName("addreading")]
-        public void AddReading([FromBody]TemperatureViewModel value)
+        public TemperatureViewModel AddReading([FromBody]TemperatureViewModel value)
         {
             if (!value.IsValid)
                 throw new ArgumentOutOfRangeException();
             value.Taken = DateTime.Now;
             _data.Temperatures.Add(value.ToData());
+            _data.SaveChanges();
+            return value;
         }
 
         // PUT: api/Temperature/5

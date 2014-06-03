@@ -1,14 +1,13 @@
-﻿using System;
+﻿using HomeMonitorDataAccess;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using HomeMonitorDataAccess;
 
 namespace HomeMonitorApi.Tests
 {
@@ -31,13 +30,15 @@ namespace HomeMonitorApi.Tests
             _defaultSoilData = new TestDbSet<SoilMoistureReading>
             {
                 new SoilMoistureReading {Taken = DateTime.Parse("1/5/2014 10:20:10 AM"), SensorNumber = 1, MilliVolts = 1000m },
-                new SoilMoistureReading {Taken = DateTime.Parse("1/7/2014 11:10:10 AM"), SensorNumber = 1, MilliVolts = 900m },
-                new SoilMoistureReading {Taken = DateTime.Parse("1/2/2014 12:10:11 AM"), SensorNumber = 1, MilliVolts = 950m },
-                new SoilMoistureReading {Taken = DateTime.Parse("1/2/2014 10:10:10 AM"), SensorNumber = 1, MilliVolts = 901m },
+                new SoilMoistureReading {Taken = DateTime.Parse("1/7/2014 11:10:10 AM"), SensorNumber = 2, MilliVolts = 900m },
+                new SoilMoistureReading {Taken = DateTime.Parse("1/2/2014 12:10:11 AM"), SensorNumber = 6, MilliVolts = 950m },
+                new SoilMoistureReading {Taken = DateTime.Parse("1/2/2014 10:10:10 AM"), SensorNumber = 4, MilliVolts = 901m },
                 new SoilMoistureReading {Taken = DateTime.Parse("1/2/2014 09:10:34 AM"), SensorNumber = 1, MilliVolts = 0m },
-                new SoilMoistureReading {Taken = DateTime.Parse("1/4/2014 04:10:30 AM"), SensorNumber = 1, MilliVolts = 2000m },
-                new SoilMoistureReading {Taken = DateTime.Parse("1/1/2014 10:10:20 AM"), SensorNumber = 1, MilliVolts = 50m },
-                new SoilMoistureReading {Taken = DateTime.Parse("1/1/2014 10:10:30 AM"), SensorNumber = 1, MilliVolts = 500m },
+                new SoilMoistureReading {Taken = DateTime.Parse("1/4/2014 04:10:30 AM"), SensorNumber = 2, MilliVolts = 2000m },
+                new SoilMoistureReading {Taken = DateTime.Parse("1/1/2014 10:10:20 AM"), SensorNumber = 5, MilliVolts = 50m },
+                new SoilMoistureReading {Taken = DateTime.Parse("1/1/2014 10:10:30 AM"), SensorNumber = 3, MilliVolts = 500m },
+                new SoilMoistureReading {Taken = DateTime.Parse("1/5/2014 04:10:30 AM"), SensorNumber = 2, MilliVolts = 2200m },
+                new SoilMoistureReading {Taken = DateTime.Parse("1/6/2014 04:10:30 AM"), SensorNumber = 2, MilliVolts = 2300m },
             };
         }
         public DbSet<Temperature> Temperatures
@@ -49,11 +50,14 @@ namespace HomeMonitorApi.Tests
 
         public DbSet<SoilMoistureReading> SoilMoistureReadings
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { return _defaultSoilData; }
             set { throw new NotImplementedException(); }
+        }
+
+
+        public int SaveChanges()
+        {
+            return 1;
         }
     }
 

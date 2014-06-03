@@ -94,6 +94,7 @@
     </Compile>
     <Compile Include="HomeMonitorExceptionFilter.cs" />
     <Compile Include="Models\IHomeMonitorApiModel.cs" />
+    <Compile Include="Models\SoilMoistureViewModel.cs" />
     <Compile Include="Models\TemperatureViewModel.cs" />
     <Compile Include="NoTemperatureReadingsException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

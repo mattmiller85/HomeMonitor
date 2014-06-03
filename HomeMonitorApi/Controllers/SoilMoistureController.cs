@@ -1,12 +1,9 @@
-﻿using System;
+﻿using HomeMonitorApi.Models;
+using HomeMonitorDataAccess;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Caching;
 using System.Web.Http;
-using HomeMonitorApi.Models;
-using HomeMonitorDataAccess;
 
 namespace HomeMonitorApi.Controllers
 {
@@ -24,36 +21,48 @@ namespace HomeMonitorApi.Controllers
             _data = data;
         }
 
-        // GET: api/Temperature/latest
+        // GET: api/SoilMoisture/latest/[sensorNumber]
         [HttpGet]
         [ActionName("latest")]
-        public TemperatureViewModel GetLatest()
+        public SoilMoistureViewModel GetLatest(int sensorNumber)
         {
             try
             {
-                return GetLatest(1).First();
+                return SoilMoistureViewModel.FromData(
+                    _data.SoilMoistureReadings
+                        .Where(r => r.SensorNumber == sensorNumber)
+                        .OrderByDescending(r => r.Taken)
+                        .FirstOrDefault());
             }
             catch (InvalidOperationException)
             {
-                throw new NoTemperatureReadingsException();
+                throw new NoSoilMoistureReadingsException();
             }
-            
         }
 
-        // GET: api/Temperature/latest/[count]
+        // GET: api/SoilMoisture/latest
         [HttpGet]
         [ActionName("latest")]
-        public IEnumerable<TemperatureViewModel> GetLatest(int count)
+        public IEnumerable<SoilMoistureViewModel> GetLatest()
         {
-            return _data.Temperatures.OrderByDescending(t => t.Taken).Take(count).Select(t => TemperatureViewModel.FromData(t));
+            var data = _data.SoilMoistureReadings
+                .OrderByDescending(r => r.Taken)
+                .GroupBy(r => r.SensorNumber)
+                .Select(g => g.FirstOrDefault()).ToList();
+            return data.Select(SoilMoistureViewModel.FromData);
         }
 
         // POST: api/Temperature
         [HttpPost]
         [ActionName("addreading")]
-        public void AddReading([FromBody]TemperatureViewModel value)
+        public SoilMoistureViewModel AddReading([FromBody]SoilMoistureViewModel value)
         {
-            throw new NotImplementedException();
+            if(!value.IsValid)
+                throw new ArgumentOutOfRangeException();
+            value.Taken = DateTime.Now;
+            _data.SoilMoistureReadings.Add(value.ToData());
+            _data.SaveChanges();
+            return value;
         }
 
         // PUT: api/Temperature/5

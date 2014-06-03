@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HomeMonitorEntitiesStub.cs" />
+    <Compile Include="IntegrationTests\SoilMoistureControllerTests.cs" />
     <Compile Include="IntegrationTests\TemperatureControllerTests.cs" />
     <Compile Include="SoilMoistureTests.cs" />
     <Compile Include="TemperatureTests.cs" />

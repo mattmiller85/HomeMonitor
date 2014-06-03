@@ -6,5 +6,6 @@ namespace HomeMonitorDataAccess
     {
         DbSet<Temperature> Temperatures { get; set; }
         DbSet<SoilMoistureReading> SoilMoistureReadings { get; set; }
+        int SaveChanges();
     }
 }

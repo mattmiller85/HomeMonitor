@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
+﻿using System.Web.Http;
 
 namespace HomeMonitorApi
 {
@@ -31,6 +28,12 @@ namespace HomeMonitorApi
                 name: "DefaultTemperatureHistoryApi",
                 routeTemplate: "api/{controller}/{action}/{count}",
                 defaults: new { action = "latest", count = 1 }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "DefaultSensorReadingApi",
+                routeTemplate: "api/{controller}/{action}/{sensorNumber}",
+                defaults: new { action = "latest", sensorNumber = 2 }
             );
         }
     }

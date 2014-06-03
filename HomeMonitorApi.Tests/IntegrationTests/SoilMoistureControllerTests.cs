@@ -12,13 +12,13 @@ using System.Threading.Tasks;
 namespace HomeMonitorApi.Tests.IntegrationTests
 {
     [TestClass]
-    public class TemperatureControllerTests
+    public class SoilMoistureControllerTests
     {
         //private const string TestBaseAddress = "http://localhost:60945/";
         private const string TestBaseAddress = "http://homemonitorapi/";
-        
+
         [TestMethod]
-        public async Task ShouldAttemptToCallGetLatestWithNoParametersWhenIssuing_GET_To_api_Temperature_latest()
+        public async Task ShouldAttemptToCallGetLatestWithNoParametersWhenIssuing_GET_To_api_SoilMoisture_latest()
         {
             using (var client = new HttpClient())
             {
@@ -26,17 +26,17 @@ namespace HomeMonitorApi.Tests.IntegrationTests
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var response = await client.GetAsync("api/Temperature/latest");
+                var response = await client.GetAsync("api/SoilMoisture/latest");
                 var json = await response.Content.ReadAsStringAsync();
-                var model = JsonConvert.DeserializeObject<TemperatureViewModel>(json);
+                var model = JsonConvert.DeserializeObject<IEnumerable<SoilMoistureViewModel>>(json);
 
-                Assert.IsTrue(model.IsValid);
+                Assert.IsTrue(model.Any());
                 Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
             }
         }
 
         [TestMethod]
-        public async Task ShouldAttemptToCallGetLatestWithIntParameterWhenIssuing_GET_To_api_Temperature_latest_5()
+        public async Task ShouldAttemptToCallGetLatestWithIntParameterWhenIssuing_GET_To_api_Temperature_latest_1()
         {
             using (var client = new HttpClient())
             {
@@ -44,11 +44,11 @@ namespace HomeMonitorApi.Tests.IntegrationTests
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var response = await client.GetAsync("api/Temperature/latest/5");
+                var response = await client.GetAsync("api/SoilMoisture/latest/1");
                 var json = await response.Content.ReadAsStringAsync();
-                var model = JsonConvert.DeserializeObject<IEnumerable<TemperatureViewModel>>(json);
+                var model = JsonConvert.DeserializeObject<SoilMoistureViewModel>(json);
 
-                Assert.IsTrue(model.Any());
+                Assert.IsTrue(model.IsValid);
                 Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
             }
         }
@@ -62,10 +62,10 @@ namespace HomeMonitorApi.Tests.IntegrationTests
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var itemToAdd = new TemperatureViewModel {TemperatureFarenheit = 55, Taken = DateTime.Parse("1/1/2014")};
-                var response = await client.PostAsJsonAsync("api/Temperature/addreading", itemToAdd);
+                var itemToAdd = new SoilMoistureViewModel { Taken = DateTime.Parse("1/1/2014"), MilliVolts = 400, SensorNumber = 1};
+                var response = await client.PostAsJsonAsync("api/SoilMoisture/addreading", itemToAdd);
                 var json = await response.Content.ReadAsStringAsync();
-                var model = JsonConvert.DeserializeObject<TemperatureViewModel>(json);
+                var model = JsonConvert.DeserializeObject<SoilMoistureViewModel>(json);
 
                 Assert.IsTrue(model.Taken > DateTime.Parse("1/1/2014"));
                 Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);

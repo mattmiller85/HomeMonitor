@@ -1,11 +1,9 @@
-﻿using System;
-using System.Data.Entity;
-using System.Linq;
-using HomeMonitorApi.Controllers;
+﻿using HomeMonitorApi.Controllers;
 using HomeMonitorApi.Models;
-using HomeMonitorDataAccess;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MSTestExtensions;
+using System;
+using System.Linq;
 
 namespace HomeMonitorApi.Tests
 {
