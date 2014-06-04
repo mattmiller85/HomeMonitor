@@ -1,15 +1,13 @@
-﻿using System;
+﻿using HomeMonitorApi.Models;
+using HomeMonitorDataAccess;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Caching;
 using System.Web.Http;
-using HomeMonitorApi.Models;
-using HomeMonitorDataAccess;
 
 namespace HomeMonitorApi.Controllers
 {
+    [RoutePrefix("api/Temperature")]
     public class TemperatureController : ApiController
     {
         private readonly IHomeMonitorDataContext _data;
@@ -24,14 +22,13 @@ namespace HomeMonitorApi.Controllers
             _data = data;
         }
 
-        // GET: api/Temperature/latest
-        [HttpGet]
-        [ActionName("latest")]
-        public TemperatureViewModel GetLatest()
+        // GET: api/Temperature
+        [Route("")]
+        public TemperatureViewModel Get()
         {
             try
             {
-                return GetLatest(1).First();
+                return Get(1).First();
             }
             catch (InvalidOperationException)
             {
@@ -40,18 +37,16 @@ namespace HomeMonitorApi.Controllers
             
         }
 
-        // GET: api/Temperature/latest/[count]
-        [HttpGet]
-        [ActionName("latest")]
-        public IEnumerable<TemperatureViewModel> GetLatest(int count)
+        // GET: api/Temperature/[count]
+        [Route("{count:int}")]
+        public IEnumerable<TemperatureViewModel> Get(int count)
         {
             return _data.Temperatures.OrderByDescending(t => t.Taken).Take(count).ToList().Select(TemperatureViewModel.FromData);
         }
             
-        // POST: api/Temperature/addreading
-        [HttpPost]
-        [ActionName("addreading")]
-        public TemperatureViewModel AddReading([FromBody]TemperatureViewModel value)
+        // POST: api/Temperature
+        [Route("")]
+        public TemperatureViewModel Post([FromBody]TemperatureViewModel value)
         {
             if (!value.IsValid)
                 throw new ArgumentOutOfRangeException();
@@ -59,18 +54,6 @@ namespace HomeMonitorApi.Controllers
             _data.Temperatures.Add(value.ToData());
             _data.SaveChanges();
             return value;
-        }
-
-        // PUT: api/Temperature/5
-        public void Put(int id, [FromBody]string value)
-        {
-            throw new NotImplementedException();
-        }
-
-        // DELETE: api/Temperature/5
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
         }
     }
 }

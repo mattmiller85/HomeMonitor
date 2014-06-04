@@ -7,6 +7,7 @@ using System.Web.Http;
 
 namespace HomeMonitorApi.Controllers
 {
+    [RoutePrefix("api/SoilMoisture")]
     public class SoilMoistureController : ApiController
     {
         private readonly IHomeMonitorDataContext _data;
@@ -21,10 +22,9 @@ namespace HomeMonitorApi.Controllers
             _data = data;
         }
 
-        // GET: api/SoilMoisture/latest/[sensorNumber]
-        [HttpGet]
-        [ActionName("latest")]
-        public SoilMoistureViewModel GetLatest(int sensorNumber)
+        // GET: api/SoilMoisture/[sensorNumber]
+        [Route("{sensorNumber:int}")]
+        public SoilMoistureViewModel Get(int sensorNumber)
         {
             try
             {
@@ -34,16 +34,15 @@ namespace HomeMonitorApi.Controllers
                         .OrderByDescending(r => r.Taken)
                         .FirstOrDefault());
             }
-            catch (InvalidOperationException)
+            catch (NullReferenceException)
             {
                 throw new NoSoilMoistureReadingsException();
             }
         }
 
-        // GET: api/SoilMoisture/latest
-        [HttpGet]
-        [ActionName("latest")]
-        public IEnumerable<SoilMoistureViewModel> GetLatest()
+        // GET: api/SoilMoisture
+        [Route("")]
+        public IEnumerable<SoilMoistureViewModel> Get()
         {
             var data = _data.SoilMoistureReadings
                 .OrderByDescending(r => r.Taken)
@@ -53,9 +52,8 @@ namespace HomeMonitorApi.Controllers
         }
 
         // POST: api/Temperature
-        [HttpPost]
-        [ActionName("addreading")]
-        public SoilMoistureViewModel AddReading([FromBody]SoilMoistureViewModel value)
+        [Route("")]
+        public SoilMoistureViewModel Post([FromBody]SoilMoistureViewModel value)
         {
             if(!value.IsValid)
                 throw new ArgumentOutOfRangeException();
@@ -63,18 +61,6 @@ namespace HomeMonitorApi.Controllers
             _data.SoilMoistureReadings.Add(value.ToData());
             _data.SaveChanges();
             return value;
-        }
-
-        // PUT: api/Temperature/5
-        public void Put(int id, [FromBody]string value)
-        {
-            throw new NotImplementedException();
-        }
-
-        // DELETE: api/Temperature/5
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
         }
     }
 }

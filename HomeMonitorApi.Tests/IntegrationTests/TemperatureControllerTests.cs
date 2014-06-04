@@ -14,11 +14,11 @@ namespace HomeMonitorApi.Tests.IntegrationTests
     [TestClass]
     public class TemperatureControllerTests
     {
-        //private const string TestBaseAddress = "http://localhost:60945/";
-        private const string TestBaseAddress = "http://homemonitorapi/";
+        private const string TestBaseAddress = "http://localhost:60945/";
+        //private const string TestBaseAddress = "http://homemonitorapi/";
         
         [TestMethod]
-        public async Task ShouldAttemptToCallGetLatestWithNoParametersWhenIssuing_GET_To_api_Temperature_latest()
+        public async Task ShouldAttemptToCallGetLatestWithNoParametersWhenIssuing_GET_To_api_Temperature()
         {
             using (var client = new HttpClient())
             {
@@ -26,7 +26,7 @@ namespace HomeMonitorApi.Tests.IntegrationTests
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var response = await client.GetAsync("api/Temperature/latest");
+                var response = await client.GetAsync("api/Temperature");
                 var json = await response.Content.ReadAsStringAsync();
                 var model = JsonConvert.DeserializeObject<TemperatureViewModel>(json);
 
@@ -36,7 +36,7 @@ namespace HomeMonitorApi.Tests.IntegrationTests
         }
 
         [TestMethod]
-        public async Task ShouldAttemptToCallGetLatestWithIntParameterWhenIssuing_GET_To_api_Temperature_latest_5()
+        public async Task ShouldAttemptToCallGetLatestWithIntParameterWhenIssuing_GET_To_api_Temperature_5()
         {
             using (var client = new HttpClient())
             {
@@ -44,7 +44,7 @@ namespace HomeMonitorApi.Tests.IntegrationTests
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var response = await client.GetAsync("api/Temperature/latest/5");
+                var response = await client.GetAsync("api/Temperature/5");
                 var json = await response.Content.ReadAsStringAsync();
                 var model = JsonConvert.DeserializeObject<IEnumerable<TemperatureViewModel>>(json);
 
@@ -54,7 +54,7 @@ namespace HomeMonitorApi.Tests.IntegrationTests
         }
 
         [TestMethod]
-        public async Task ShouldAttemptToAddTemperatureIssuing_POST_To_api_Temperature_addreading()
+        public async Task ShouldAttemptToAddTemperatureIssuing_POST_To_api_Temperature()
         {
             using (var client = new HttpClient())
             {
@@ -63,7 +63,7 @@ namespace HomeMonitorApi.Tests.IntegrationTests
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 var itemToAdd = new TemperatureViewModel {TemperatureFarenheit = 55, Taken = DateTime.Parse("1/1/2014")};
-                var response = await client.PostAsJsonAsync("api/Temperature/addreading", itemToAdd);
+                var response = await client.PostAsJsonAsync("api/Temperature", itemToAdd);
                 var json = await response.Content.ReadAsStringAsync();
                 var model = JsonConvert.DeserializeObject<TemperatureViewModel>(json);
 

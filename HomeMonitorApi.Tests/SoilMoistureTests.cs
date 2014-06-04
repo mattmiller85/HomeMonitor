@@ -21,18 +21,18 @@ namespace HomeMonitorApi.Tests
         }
 
         [TestMethod]
-        public void GetLatestWithParametersShouldReturnLatestReadingForGivenSensorNumber()
+        public void GetWithParametersShouldReturnLatestReadingForGivenSensorNumber()
         {
-            var result = _controller.GetLatest(2);
+            var result = _controller.Get(2);
 
             Assert.IsTrue(result.IsValid);
             Assert.AreEqual(result.MilliVolts, 900m);
         }
 
         [TestMethod]
-        public void GetLatestWithNoParametersShouldReturnLatestReadingsForAllSensors()
+        public void GetWithNoParametersShouldReturnLatestReadingsForAllSensors()
         {
-            var result = _controller.GetLatest().ToList();
+            var result = _controller.Get().ToList();
 
             Assert.AreEqual(result.Count(), 6);
             Assert.AreEqual(result.Single(s => s.SensorNumber == 1).MilliVolts, 1000m);
@@ -44,7 +44,7 @@ namespace HomeMonitorApi.Tests
         {
             _dummyData.SoilMoistureReadings.RemoveRange(null);
 
-            ExceptionAssert.Throws<NoSoilMoistureReadingsException>(() => _controller.GetLatest(1), "There are currently no soil moisture readings.");
+            ExceptionAssert.Throws<NoSoilMoistureReadingsException>(() => _controller.Get(1), "There are currently no soil moisture readings.");
         }
 
         [TestMethod]
@@ -56,7 +56,7 @@ namespace HomeMonitorApi.Tests
                 SensorNumber = -34,
                 Taken = DateTime.Parse("1/1/2014")
             };
-            ExceptionAssert.Throws<ArgumentOutOfRangeException>(() => _controller.AddReading(model));
+            ExceptionAssert.Throws<ArgumentOutOfRangeException>(() => _controller.Post(model));
         }
 
         [TestMethod]
@@ -69,10 +69,10 @@ namespace HomeMonitorApi.Tests
                 Taken = DateTime.Parse("1/1/2014")
             };
 
-            model = _controller.AddReading(model);
+            model = _controller.Post(model);
 
             Assert.IsTrue(model.Taken > DateTime.Parse("1/1/2014"));
-            Assert.AreEqual(987, _controller.GetLatest(1).MilliVolts);
+            Assert.AreEqual(987, _controller.Get(1).MilliVolts);
         }
     }
 }

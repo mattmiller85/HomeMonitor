@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MilliVolts" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="SensorNumber" Type="int" Nullable="false" />
           <Property Name="Taken" Type="datetime" Nullable="false" />
