@@ -1,4 +1,5 @@
-﻿using HomeMonitorApi.Models;
+﻿using System.Data.Entity;
+using HomeMonitorApi.Models;
 using HomeMonitorDataAccess;
 using System;
 using System.Collections.Generic;
@@ -47,7 +48,7 @@ namespace HomeMonitorApi.Controllers
             var data = _data.SoilMoistureReadings
                 .OrderByDescending(r => r.Taken)
                 .GroupBy(r => r.SensorNumber)
-                .Select(g => g.FirstOrDefault()).ToList();
+                .Select(g => g.FirstOrDefault());
             return data.Select(SoilMoistureViewModel.FromData);
         }
 

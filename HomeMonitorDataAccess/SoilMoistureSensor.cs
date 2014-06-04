@@ -12,13 +12,17 @@ namespace HomeMonitorDataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class SoilMoistureReading
+    public partial class SoilMoistureSensor
     {
-        public int Id { get; set; }
-        public decimal MilliVolts { get; set; }
-        public int SensorNumber { get; set; }
-        public System.DateTime Taken { get; set; }
+        public SoilMoistureSensor()
+        {
+            this.SoilMoistureReadings = new HashSet<SoilMoistureReading>();
+        }
     
-        public virtual SoilMoistureSensor SoilMoistureSensor { get; set; }
+        public int SensorNumber { get; set; }
+        public string SensorName { get; set; }
+        public string SensorLocation { get; set; }
+    
+        public virtual ICollection<SoilMoistureReading> SoilMoistureReadings { get; set; }
     }
 }

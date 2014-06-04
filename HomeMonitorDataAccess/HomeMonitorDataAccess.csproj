@@ -83,6 +83,9 @@
     <Compile Include="SoilMoistureReading.cs">
       <DependentUpon>HomeMonitorModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SoilMoistureSensor.cs">
+      <DependentUpon>HomeMonitorModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Temperature.cs">
       <DependentUpon>HomeMonitorModel.tt</DependentUpon>
     </Compile>

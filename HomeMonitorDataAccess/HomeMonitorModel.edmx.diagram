@@ -7,6 +7,8 @@
       <Diagram DiagramId="ded11bc9597142f99433d169819e18f1" Name="Diagram1">
         <EntityTypeShape EntityType="HomeMonitorModel.SoilMoistureReading" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HomeMonitorModel.Temperature" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HomeMonitorModel.SoilMoistureSensor" Width="2" PointX="0.75" PointY="3.875" />
+        <AssociationConnector Association="HomeMonitorModel.FK_SoilMoistureReading_ToSoilMoistureSensor" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

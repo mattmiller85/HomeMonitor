@@ -27,5 +27,6 @@ namespace HomeMonitorDataAccess
     
         public virtual DbSet<SoilMoistureReading> SoilMoistureReadings { get; set; }
         public virtual DbSet<Temperature> Temperatures { get; set; }
+        public virtual DbSet<SoilMoistureSensor> SoilMoistureSensors { get; set; }
     }
 }

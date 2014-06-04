@@ -6,6 +6,8 @@ namespace HomeMonitorApi.Models
     public class SoilMoistureViewModel : IHomeMonitorApiModel<SoilMoistureReading>
     {
         public int SensorNumber { get; set; }
+        public string SensorName { get; set; }
+        public string SensorLocation { get; set; }
         public DateTime Taken { get; set; }
         public decimal MilliVolts { get; set; }
 
@@ -15,7 +17,9 @@ namespace HomeMonitorApi.Models
             {
                 Taken = reading.Taken,
                 MilliVolts = reading.MilliVolts,
-                SensorNumber = reading.SensorNumber
+                SensorNumber = reading.SensorNumber,
+                SensorName = reading.SoilMoistureSensor == null ? string.Empty : reading.SoilMoistureSensor.SensorName,
+                SensorLocation = reading.SoilMoistureSensor == null ? string.Empty : reading.SoilMoistureSensor.SensorLocation
             };
         }
 
